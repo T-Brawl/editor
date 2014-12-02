@@ -1,12 +1,15 @@
 package plugins;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+
+import javax.swing.Timer;
 
 public class Main {
 
-	/**
-	 * @param args
-	 */
+
+	
 	public static void main(String[] args) { 
 		PluginFilter pointClass = new PluginFilter();
 		FileDetector mrString = new FileDetector();
@@ -16,9 +19,8 @@ public class Main {
 		File xd = new File("Zug Zug");
 		
 		checkStuff.addFileListener(mrString);
-		checkStuff.fileAdded(lol);
-		
 
+		while(true);
 	}
 
 }
