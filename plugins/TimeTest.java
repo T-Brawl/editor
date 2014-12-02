@@ -21,7 +21,7 @@ public class TimeTest {
 	
 	public static void main(String[] args) {
 		TimeTest main = new TimeTest();
-		Timer tictac = new Timer(50,main.clock);
+		Timer tictac = new Timer(1000,main.clock);
 		tictac.start();
 		while(true);
 	}

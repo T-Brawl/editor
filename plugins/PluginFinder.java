@@ -16,12 +16,15 @@ public class PluginFinder implements ActionListener {
 	private Timer timer;
 
 	private ArrayList<FileListener> fileListeners;
+	
+	private String[] oldFiles;
 
 	public PluginFinder(File directory, PluginFilter filter) {
 		this.directory = directory;
 		this.filter = filter;
 		this.fileListeners = new ArrayList<FileListener>();
-		this.timer = new Timer(1000, this);
+		this.oldFiles = null;
+		this.timer = new Timer(500, this);
 		this.timer.start();
 	}
 
@@ -56,11 +59,11 @@ public class PluginFinder implements ActionListener {
 	public void fileAdded(File file) { fireFileAdded(file); }
 	
 	public void fileRemoved(File file) { fireFileRemoved(file); }
-
-	@Override
+	
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		String[] newFiles = this.directory.list(this.filter);
+		if(oldFiles != null && !oldFiles.equals(newFiles)) for(String file : newFiles) {this.fileAdded(new File(file));}	
+		oldFiles = newFiles;
 	}
 
 }
