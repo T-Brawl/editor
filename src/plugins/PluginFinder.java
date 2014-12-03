@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.Timer;
 
@@ -15,15 +17,15 @@ public class PluginFinder implements ActionListener {
 
 	private Timer timer;
 
-	private ArrayList<FileListener> fileListeners;
-	
-	private String[] oldFiles;
+	private List<FileListener> fileListeners;
+
+	private List<String> oldFiles;
 
 	public PluginFinder(File directory, PluginFilter filter) {
 		this.directory = directory;
 		this.filter = filter;
 		this.fileListeners = new ArrayList<FileListener>();
-		this.oldFiles = null;
+		this.oldFiles = new ArrayList<String>();
 		this.timer = new Timer(500, this);
 		this.timer.start();
 	}
@@ -39,31 +41,59 @@ public class PluginFinder implements ActionListener {
 		fileListeners.remove(l);
 	}
 
-	
 	private void fireFileAdded(File file) {
-		ArrayList<FileListener> list = (ArrayList<FileListener>) fileListeners.clone();
-		for(FileListener fl : list) {
+		List<FileListener> list =  fileListeners;
+		for (FileListener fl : list) {
 			FileEvent event = new FileEvent(file);
 			fl.fileAdded(file);
 		}
 	}
-	
+
 	private void fireFileRemoved(File file) {
-		ArrayList<FileListener> list = (ArrayList<FileListener>) fileListeners.clone();
-		for(FileListener fl : list) {
+		List<FileListener> list = fileListeners;
+		for (FileListener fl : list) {
 			FileEvent event = new FileEvent(file);
 			fl.fileRemoved(file);
 		}
 	}
 
-	public void fileAdded(File file) { fireFileAdded(file); }
-	
-	public void fileRemoved(File file) { fireFileRemoved(file); }
-	
+	public void fileAdded(File file) {
+		fireFileAdded(file);
+	}
+
+	public void fileRemoved(File file) {
+		fireFileRemoved(file);
+	}
+
+	public void checkFileAdded(List<String> fileList) {
+		for (String s : fileList) {
+			if (!oldFiles.contains(s)) {
+				this.fileAdded(new File(s));
+			}
+		}
+
+	}
+
+	public void checkFileRemoved(List<String> fileList) {
+		for (String s : oldFiles) {
+			/*
+			 * si la nouvelle liste de fichier ne contient pas des fichiers qui
+			 * étaient dans l'ancienne liste (supprimés donc)
+			 */
+			if (!fileList.contains(s)) {
+				this.fileRemoved(new File(s));
+			}
+		}
+
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		String[] newFiles = this.directory.list(this.filter);
-		if(oldFiles != null && !oldFiles.equals(newFiles)) for(String file : newFiles) {this.fileAdded(new File(file));}	
-		oldFiles = newFiles;
+		List<String> filesAsList = Arrays.asList(newFiles);
+		Arrays.sort(newFiles);
+		checkFileAdded(filesAsList);
+		checkFileRemoved(filesAsList);
+		oldFiles = filesAsList;
 	}
 
 }
