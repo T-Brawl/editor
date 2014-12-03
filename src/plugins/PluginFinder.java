@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.Timer;
@@ -20,6 +21,8 @@ public class PluginFinder implements ActionListener {
 	private List<FileListener> fileListeners;
 
 	private List<String> oldFiles;
+	
+	private Collection<Class> pluginList;
 
 	public PluginFinder(File directory, PluginFilter filter) {
 		this.directory = directory;
@@ -44,7 +47,6 @@ public class PluginFinder implements ActionListener {
 	private void fireFileAdded(File file) {
 		List<FileListener> list =  fileListeners;
 		for (FileListener fl : list) {
-			FileEvent event = new FileEvent(file);
 			fl.fileAdded(file);
 		}
 	}
@@ -52,7 +54,6 @@ public class PluginFinder implements ActionListener {
 	private void fireFileRemoved(File file) {
 		List<FileListener> list = fileListeners;
 		for (FileListener fl : list) {
-			FileEvent event = new FileEvent(file);
 			fl.fileRemoved(file);
 		}
 	}
@@ -65,9 +66,16 @@ public class PluginFinder implements ActionListener {
 		fireFileRemoved(file);
 	}
 
-	public void checkFileAdded(List<String> fileList) {
+	public void checkFileAdded(List<String> fileList) throws ClassNotFoundException {
+		Class<?> plugins;
+		String[] newClass = new String[2];
 		for (String s : fileList) {
 			if (!oldFiles.contains(s)) {
+				/*newClass = s.split(".");
+				plugins = Class.forName(newClass[0]);
+				if(plugins.getInterfaces().getClass().getCanonicalName().equals("Plugin")) {
+					
+				}*/
 				this.fileAdded(new File(s));
 			}
 		}
@@ -91,7 +99,12 @@ public class PluginFinder implements ActionListener {
 		String[] newFiles = this.directory.list(this.filter);
 		List<String> filesAsList = Arrays.asList(newFiles);
 		Arrays.sort(newFiles);
-		checkFileAdded(filesAsList);
+		try {
+			checkFileAdded(filesAsList);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		
 		checkFileRemoved(filesAsList);
 		oldFiles = filesAsList;
 	}

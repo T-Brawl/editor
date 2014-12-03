@@ -5,7 +5,7 @@ import java.io.FilenameFilter;
 
 public class PluginFilter implements FilenameFilter {
 
-	public String extension;
+	private String extension;
 	
 	public PluginFilter() {
 		super();
