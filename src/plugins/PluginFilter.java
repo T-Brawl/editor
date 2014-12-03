@@ -13,8 +13,8 @@ public class PluginFilter implements FilenameFilter {
 	}
 	
 	@Override
-	public boolean accept(File name, String string) {
-		return name.getName().endsWith(this.extension);
+	public boolean accept(File directory, String file) {
+		return file.endsWith(this.extension);
 	}
 	
 	public boolean accept(File name) {
