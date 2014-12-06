@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Main {
 	public static void main(String[] args) throws ClassNotFoundException { 
-		PluginFilter pointClass = new PluginFilter();
+		ClassFilter pointClass = new ClassFilter();
 		FileDetector mrString = new FileDetector();
 		PluginFinder checkStuff = new PluginFinder(new File("/home/rems/workspace/Editor/bin/plugins/"),pointClass);
 		

@@ -28,6 +28,7 @@ public class PluginFilter implements FilenameFilter {
 			generatedClass = Class.forName("plugins." + name).getClassLoader();
 			System.out.println(generatedClass.getClass().getName());
 			/* on recupere le constructeur */
+			Plugin.class.getClassLoader();
 			constructor = generatedClass.getClass().getConstructor();
 			/* si le constructeur ne prend pas de parametre */
 			if (constructor.getParameterTypes().length == 0) {

@@ -14,7 +14,7 @@ public class PluginFinder implements ActionListener {
 
 	private File directory;
 
-	private PluginFilter filter;
+	private ClassFilter filter;
 
 	private Timer timer;
 
@@ -24,7 +24,7 @@ public class PluginFinder implements ActionListener {
 	
 	private Collection<Class> pluginList;
 
-	public PluginFinder(File directory, PluginFilter filter) {
+	public PluginFinder(File directory, ClassFilter filter) {
 		this.directory = directory;
 		this.filter = filter;
 		this.fileListeners = new ArrayList<FileListener>();
