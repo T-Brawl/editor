@@ -6,7 +6,7 @@ public class Main {
 	public static void main(String[] args) throws ClassNotFoundException { 
 		ClassFilter pointClass = new ClassFilter();
 		FileDetector mrString = new FileDetector();
-		PluginFinder checkStuff = new PluginFinder(new File("/home/rems/workspace/Editor/bin/plugins/"),pointClass);
+		PluginFinder checkStuff = new PluginFinder(new File("C:\\Users\\Alexandre\\COO\\editor\\bin\\plugins"),pointClass);
 		
 		checkStuff.addFileListener(mrString);
 		String s = "ToUpperCase.class";

@@ -29,7 +29,7 @@ public class PluginFinder implements ActionListener {
 		this.filter = filter;
 		this.fileListeners = new ArrayList<FileListener>();
 		this.oldFiles = new ArrayList<String>();
-		this.timer = new Timer(500, this);
+		this.timer = new Timer(2000, this);
 		this.timer.start();
 	}
 
@@ -98,7 +98,6 @@ public class PluginFinder implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String[] newFiles = this.directory.list(this.filter);
 		List<String> filesAsList = Arrays.asList(newFiles);
-		Arrays.sort(newFiles);
 		try {
 			checkFileAdded(filesAsList);
 		} catch (ClassNotFoundException e1) {
