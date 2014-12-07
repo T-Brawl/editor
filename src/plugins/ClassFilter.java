@@ -18,6 +18,7 @@ public class ClassFilter implements FilenameFilter {
 		String[] nameFile = new String[file.length()];
 		String name;
 		Constructor constructor;
+<<<<<<< HEAD
 		String interfaces;
 		nameFile = file.split("\\.", file.length());
 		name = nameFile[0];
@@ -25,14 +26,26 @@ public class ClassFilter implements FilenameFilter {
 			constructor = Class.forName("plugins." + name).getConstructor();
 			interfaces = Class.forName("plugins." + name).getInterfaces()[0].getName();
 			return constructor.getParameterTypes().length == 0 && interfaces.equals("plugin.Plugin");
+=======
+		nameFile = file.split("\\.", file.length());
+		name = nameFile[0];
+		try {
+			/* on recupere la class depuis le nameFile (le nom sans le .class) */
+			constructor = Class.forName("plugins." + name).getConstructor();
+			/* si le constructeur ne prend pas de parametre */
+			return constructor.getParameterTypes().length == 0;
+>>>>>>> origin/master
 		} catch (ClassNotFoundException e) {
 			return false;
 		} catch (SecurityException e) {
 			return false;
 		} catch (NoSuchMethodException e) {
 			return false;
+<<<<<<< HEAD
 		} catch (ArrayIndexOutOfBoundsException e) {
 		return false;
+=======
+>>>>>>> origin/master
 		}
 	}
 
