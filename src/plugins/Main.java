@@ -8,11 +8,10 @@ public class Main {
 		FileDetector mrString = new FileDetector();
 		/* /home/l3/debue/workspace/Editor/bin/plugins */
 		PluginFinder plgFinder = new PluginFinder(new File(
-				"/home/l3/debue/workspace/Editor/bin/plugins"), pointClass);
+				"C:\\Users\\Alexandre\\COO\\editor\\bin\\plugins"), pointClass);
 		plgFinder.addFileListener(mrString);
 
-		while (true)
-			;
+		while (true);
 	}
 
 }
