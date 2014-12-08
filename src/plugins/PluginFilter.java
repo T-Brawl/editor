@@ -18,7 +18,7 @@ public class PluginFilter implements FilenameFilter {
 	public boolean accept(File directory, String file) {
 		String[] nameFile = new String[file.length()];
 		String name;
-		Constructor constructor;
+		Constructor<?> constructor;
 		String interfaces;
 		nameFile = file.split("\\.", file.length());
 		name = nameFile[0];

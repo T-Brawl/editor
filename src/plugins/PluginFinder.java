@@ -22,7 +22,7 @@ public class PluginFinder implements ActionListener {
 
 	private List<String> oldFiles;
 	
-	private Collection<Class> pluginList;
+	private Collection<Class<?>> pluginList;
 
 	public PluginFinder(File directory, PluginFilter filter) {
 		this.directory = directory;
