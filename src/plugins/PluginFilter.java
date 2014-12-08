@@ -19,29 +19,22 @@ public class PluginFilter implements FilenameFilter {
 		String[] nameFile = new String[file.length()];
 		String name;
 		Constructor constructor;
-		System.out.println(file);
+		String interfaces;
 		nameFile = file.split("\\.", file.length());
 		name = nameFile[0];
-		System.out.println(nameFile[0]);
 		try {
-			/* on recupere la class depuis le nameFile (le nom sans le .class) */
-			generatedClass = Class.forName("plugins." + name).getClassLoader();
-			System.out.println(generatedClass.getClass().getName());
-			/* on recupere le constructeur */
-			Plugin.class.getClassLoader();
-			constructor = generatedClass.getClass().getConstructor();
-			/* si le constructeur ne prend pas de parametre */
-			if (constructor.getParameterTypes().length == 0) {
-			}
-
+			constructor = Class.forName("plugins." + name).getConstructor();
+			interfaces = Class.forName("plugins." + name).getInterfaces()[0].getName();
+			return constructor.getParameterTypes().length == 0 && interfaces.equals("plugin.Plugin");
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+			return false;
 		} catch (SecurityException e) {
-			e.printStackTrace();
+			return false;
 		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
+			return false;
+		} catch (ArrayIndexOutOfBoundsException e) {
+		return false;
 		}
-		return file.endsWith(this.extension);
 
 	}
 
