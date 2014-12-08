@@ -1,7 +1,7 @@
 package plugins;
 
 
-import plugin.Plugin;
+import plugins.Plugin;
 
 
 /** This plugin applies a Cesar code to the text (ie. a shift by 1 character: 'a' into 'b', 'b' into 'c',... 'z' into 'a').
@@ -59,6 +59,6 @@ public class CesarCode implements Plugin {
 	 * @see plugin.Plugin#helpMessage()
 	 */
 	public String helpMessage() {
-		return "Apply a Cesar code to the text (ie. a shift by 1 character)";
+		return "Apply a Cesar code to the text (ie. a shift by "+this.shift+" character)";
 	}
 }

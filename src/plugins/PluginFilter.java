@@ -25,7 +25,7 @@ public class PluginFilter implements FilenameFilter {
 		try {
 			constructor = Class.forName("plugins." + name).getConstructor();
 			interfaces = Class.forName("plugins." + name).getInterfaces()[0].getName();
-			return constructor.getParameterTypes().length == 0 && interfaces.equals("plugin.Plugin");
+			return constructor.getParameterTypes().length == 0 && interfaces.equals("plugins.Plugin");
 		} catch (ClassNotFoundException e) {
 			return false;
 		} catch (SecurityException e) {
@@ -33,13 +33,9 @@ public class PluginFilter implements FilenameFilter {
 		} catch (NoSuchMethodException e) {
 			return false;
 		} catch (ArrayIndexOutOfBoundsException e) {
-		return false;
+		  return false;
 		}
 
-	}
-
-	public boolean accept(File name) {
-		return name.getName().endsWith(this.extension);
 	}
 
 }

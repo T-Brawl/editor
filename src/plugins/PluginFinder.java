@@ -10,6 +10,12 @@ import java.util.List;
 
 import javax.swing.Timer;
 
+/**
+ * Class looking for new files or deleted files every second in a certain directory.
+ * It will send an event to all the listeners.
+ * @author 
+ *
+ */
 public class PluginFinder implements ActionListener {
 
 	private File directory;
@@ -29,7 +35,16 @@ public class PluginFinder implements ActionListener {
 		this.filter = filter;
 		this.fileListeners = new ArrayList<FileListener>();
 		this.oldFiles = new ArrayList<String>();
-		this.timer = new Timer(2000, this);
+		this.timer = new Timer(1000, this);
+		this.timer.start();
+	}
+	
+	public PluginFinder(String directory, PluginFilter filter) {
+		this.directory = new File(directory);
+		this.filter = filter;
+		this.fileListeners = new ArrayList<FileListener>();
+		this.oldFiles = new ArrayList<String>();
+		this.timer = new Timer(1000, this);
 		this.timer.start();
 	}
 

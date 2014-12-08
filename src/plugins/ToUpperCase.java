@@ -1,7 +1,7 @@
 package plugins;
 
 
-import plugin.Plugin;
+import plugins.Plugin;
 
 /** this plugin transforms all the letters to upper case
  * 
