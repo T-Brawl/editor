@@ -40,6 +40,14 @@ public class PluginFinder implements ActionListener {
 		this.timer.start();
 		pluginList = new ArrayList<Plugin>();
 	}
+	
+	public PluginFinder() {
+		this.fileListeners = new ArrayList<FileListener>();
+		this.oldFiles = new ArrayList<String>();
+		this.timer = new Timer(1000, this);
+		this.timer.start();
+		pluginList = new ArrayList<Plugin>();
+	}
 
 	public PluginFinder(String directory, PluginFilter filter) {
 		this.directory = new File(directory);

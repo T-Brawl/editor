@@ -12,14 +12,14 @@ public class TestCesarCode {
 	@Before
 	public void initChaine() {
 		string = new String("Roos");
-		aveCesar = new CesarCode();
+		aveCesar = new CesarCode(1);
 	}
 	
-	
+	@Test
 	public void testTransform() {
 		String s = new String("Sppt");
 		assertFalse(string.equals(s));
-		assertEquals(string,aveCesar.transform(s));
+		assertEquals(s,aveCesar.transform(string));
 	}
 	
 	@Test
