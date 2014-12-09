@@ -29,7 +29,7 @@ public class PluginFinder implements ActionListener {
 
 	private List<String> oldFiles;
 
-	private List<Plugin> pluginList;
+	public List<Plugin> pluginList;
 
 	public PluginFinder(File directory, PluginFilter filter) {
 		this.directory = directory;
@@ -84,8 +84,7 @@ public class PluginFinder implements ActionListener {
 		fireFileRemoved(file);
 	}
 
-	public void checkFileAdded(List<String> fileList)
-			throws ClassNotFoundException, InstantiationException,
+	public void checkFileAdded(List<String> fileList)throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException {
 		for (String s : fileList) {
 			if (!oldFiles.contains(s)) {
@@ -98,13 +97,14 @@ public class PluginFinder implements ActionListener {
 				Class<?> c = Class.forName(Plugin.PACKAGE_NAME + "." + name);
 				Plugin plugin = (Plugin) c.newInstance();
 				pluginList.add(plugin);
+				System.out.println(pluginList.size());
 				System.out.println(plugin.helpMessage());
 			}
 		}
 
 	}
 
-	public void checkFileRemoved(List<String> fileList) {
+	public void checkFileRemoved(List<String> fileList) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		for (String s : oldFiles) {
 			/*
 			 * si la nouvelle liste de fichier ne contient pas des fichiers qui
@@ -112,6 +112,14 @@ public class PluginFinder implements ActionListener {
 			 */
 			if (!fileList.contains(s)) {
 				this.fileRemoved(new File(s));
+				String[] nameFile = new String[s.length()];
+				String name;
+				nameFile = s.split("\\.", s.length());
+				name = nameFile[0];
+				Class<?> c = Class.forName(Plugin.PACKAGE_NAME + "." + name);
+				Plugin plugin = (Plugin) c.newInstance();
+				pluginList.remove(plugin);
+				System.out.println("File removed : " + s);
 			}
 		}
 
@@ -129,7 +137,18 @@ public class PluginFinder implements ActionListener {
 		} catch (IllegalAccessException e1) {
 			e1.printStackTrace();
 		}
-		checkFileRemoved(filesAsList);
+		try {
+			checkFileRemoved(filesAsList);
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		oldFiles = filesAsList;
 	}
 

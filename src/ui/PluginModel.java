@@ -9,25 +9,24 @@ import plugins.PluginFilter;
 import plugins.PluginFinder;
 
 public class PluginModel extends Observable {
-	private PluginFinder finder;
-	private PluginFilter filter;
-	private List<Plugin> tools;
-	private String text;
+	protected PluginFinder finder;
+	protected PluginFilter filter;
+	protected List<Plugin> tools;
+	protected String text;
 
 	public PluginModel(String directory, PluginFilter filter) {
 		finder = new PluginFinder(directory, filter);
 		tools = new ArrayList<Plugin>();
-		if (finder.getInstances() != null) {
-			tools.addAll(finder.getInstances());
-		}
+		tools.addAll(finder.pluginList);
 	}
 
 	public PluginFilter getFilter() {
 		return this.filter;
 	}
 
-	public void tranform(Plugin p) {
+	public void transform(Plugin p) {
 		this.text = p.transform(this.text);
+		tools.addAll(finder.getInstances());
 		this.setChanged();
 		this.notifyObservers();
 	}
@@ -40,6 +39,10 @@ public class PluginModel extends Observable {
 
 	public String getText() {
 		return this.text;
+	}
+
+	public List<Plugin> getTools() {
+		return this.tools;
 	}
 
 }
