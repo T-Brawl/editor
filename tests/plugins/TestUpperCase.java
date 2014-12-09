@@ -24,12 +24,12 @@ public class TestUpperCase {
 
 	@Test
 	public void testGetLabel() {
-		assertTrue(uppercase.getLabel().equals("to upper case"));
+		assertEquals(uppercase.getLabel(),"to upper case");
 	}
 
 	@Test
 	public void testHelpMessage() {
-		assertTrue(uppercase.helpMessage().equals("Transform all the letters to upper case"));
+		assertEquals(uppercase.helpMessage(),"Transform all the letters to upper case");
 	}
 
 }
