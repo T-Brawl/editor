@@ -7,28 +7,29 @@ import org.junit.Test;
 
 public class TestCesarCode {
 	
-	private MockChaine mockChaine;
-	
+	private String string;
+	private CesarCode aveCesar;
 	@Before
 	public void initChaine() {
-		mockChaine = new MockChaine("Roos",new CesarCode());
+		string = new String("Roos");
+		aveCesar = new CesarCode();
 	}
 	
 	
 	public void testTransform() {
 		String s = new String("Sppt");
-		assertFalse(mockChaine.getChaine().equals(s));
-		assertEquals(mockChaine.transform(mockChaine.getChaine()),s);
+		assertFalse(string.equals(s));
+		assertEquals(string,aveCesar.transform(s));
 	}
 	
 	@Test
 	public void testGetLabel() {
-		assertTrue(mockChaine.getLabel().equals("Cesar Code 1"));
+		assertEquals(aveCesar.getLabel(),"Cesar Code 1");
 	}
 
 	@Test
 	public void testHelpMessage() {
-		assertTrue(mockChaine.helpMessage().equals("Apply a Cesar code to the text (ie. a shift by 1 character)"));
+		assertEquals(aveCesar.helpMessage(),"Apply a Cesar code to the text (ie. a shift by 1 character)");
 	}
 
 }
