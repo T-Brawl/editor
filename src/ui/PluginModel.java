@@ -1,16 +1,44 @@
 package ui;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import plugins.Plugin;
+import plugins.PluginFilter;
 import plugins.PluginFinder;
 
 
 public class PluginModel extends Observable {
-	PluginFinder finder;
-	List<String> tools;
+	private PluginFinder finder;
+	private PluginFilter filter;
+	private List<Plugin> tools;
+	private String text;
 	
-	public PluginModel() {
-		//finder = new PluginFinder(directory, filter)
+	public PluginModel(String directory,PluginFilter filter) {
+		finder = new PluginFinder(directory, filter);
+		tools = new ArrayList<Plugin>();
+		tools.addAll(finder.getInstances());
 	}
+	
+	public PluginFilter getFilter() {
+		return this.filter;
+	}
+	
+	public void tranform(Plugin p){
+		this.text = p.transform(this.text);
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	public void setText(String s){
+		this.text=s;
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	public String getText(){
+		return this.text;
+	}
+	
 }

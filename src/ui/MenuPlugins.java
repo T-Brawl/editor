@@ -12,9 +12,10 @@ public class MenuPlugins extends JMenuBar {
 	public MenuPlugins() {
 		this.file = new JMenu("File");
 		this.tools = new JMenu("Tools");
+		
 		this.help = new JMenu("Help");
 		this.add(file);
-		add = new JMenuItem("Open..");
+		add = new JMenuItem("Add..");
 		file.add(add);
 		remove = new JMenuItem("Remove..");
 		file.add(remove);
