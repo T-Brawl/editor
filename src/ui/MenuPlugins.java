@@ -2,6 +2,8 @@ package ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.Observer;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import plugins.FileListener;
 import plugins.Plugin;
@@ -48,7 +51,44 @@ public class MenuPlugins extends JMenuBar implements FileListener {
 		try {
 			c = Class.forName(Plugin.PACKAGE_NAME + "." + name);
 			Plugin plugin = (Plugin) c.newInstance();
-			this.tools.add(plugin.getLabel());
+			JMenuItem pgTools = new JMenuItem (plugin.getLabel());
+			JMenuItem pgHelp = new JMenuItem (plugin.getLabel());
+			pgTools.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {System.out.println("lol");}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {}
+			});
+			pgHelp.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {System.out.println("lol"); new JOptionPane("lol");}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {}
+			});
+			this.tools.add(pgTools);			
+			this.help.add(pgHelp);
 			this.listTools.add(plugin);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();

@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -32,7 +34,7 @@ public class MainFrame extends JFrame {
 		menuPlugins = new MenuPlugins();
 		this.plg.addFileListener(this.menuPlugins);
 		this.setJMenuBar(menuPlugins);
-		textArea = new JTextArea();
+		textArea = new JTextArea("Maisouicestclair");
 		this.add(textArea);
 		this.setPreferredSize(new Dimension(800, 600));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
