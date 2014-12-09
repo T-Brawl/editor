@@ -3,6 +3,7 @@ package ui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -13,11 +14,13 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import plugins.FileListener;
+import plugins.Plugin;
 
 public class MenuPlugins extends JMenuBar implements FileListener {
 	private static final long serialVersionUID = 253926500820076375L;
 	private JMenu file, tools, help;
 	private JMenuItem add,remove;
+	protected List<Plugin> listTools;
 	
 	public MenuPlugins() {
 		this.file = new JMenu("File");
@@ -30,11 +33,27 @@ public class MenuPlugins extends JMenuBar implements FileListener {
 		file.add(remove);
 		this.add(tools);
 		this.add(help);
+		this.listTools = new ArrayList<Plugin>();
 	}
 
 	@Override
 	public void fileAdded(File file) {
-		if (this.tools.add(new JMenuItem(file.toString())) != null) System.out.println(file.toString());
+		String[] nameFile = new String[2];
+		String name;
+		Constructor<?> constructor;
+		String interfaces;
+		nameFile = file.toString().split("\\.", 2);
+		name = nameFile[0];
+		Class<?> c;
+		try {
+			c = Class.forName(Plugin.PACKAGE_NAME + "." + name);
+			Plugin plugin = (Plugin) c.newInstance();
+			this.tools.add(plugin.getLabel());
+			this.listTools.add(plugin);
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	@Override
