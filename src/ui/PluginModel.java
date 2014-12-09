@@ -16,6 +16,7 @@ public class PluginModel extends Observable {
 
 	public PluginModel(String directory, PluginFilter filter) {
 		finder = new PluginFinder(directory, filter);
+		text = new String();
 		tools = new ArrayList<Plugin>();
 		tools.addAll(finder.pluginList);
 	}
@@ -25,6 +26,7 @@ public class PluginModel extends Observable {
 	}
 
 	public void transform(Plugin p) {
+		System.out.println("VIVE LE " +text);
 		this.text = p.transform(this.text);
 		tools.addAll(finder.getInstances());
 		this.setChanged();
