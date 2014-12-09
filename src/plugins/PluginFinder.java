@@ -81,16 +81,9 @@ public class PluginFinder implements ActionListener {
 		fireFileRemoved(file);
 	}
 
-	public void checkFileAdded(List<String> fileList) throws ClassNotFoundException {
-		Class<?> plugins;
-		String[] newClass = new String[2];
+	public void checkFileAdded(List<String> fileList) {
 		for (String s : fileList) {
 			if (!oldFiles.contains(s)) {
-				/*newClass = s.split(".");
-				plugins = Class.forName(newClass[0]);
-				if(plugins.getInterfaces().getClass().getCanonicalName().equals("Plugin")) {
-					
-				}*/
 				this.fileAdded(new File(s));
 			}
 		}
@@ -113,12 +106,7 @@ public class PluginFinder implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String[] newFiles = this.directory.list(this.filter);
 		List<String> filesAsList = Arrays.asList(newFiles);
-		try {
-			checkFileAdded(filesAsList);
-		} catch (ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		
+		checkFileAdded(filesAsList);		
 		checkFileRemoved(filesAsList);
 		oldFiles = filesAsList;
 	}

@@ -4,15 +4,21 @@ import java.io.File;
 
 public class FileDetector implements FileListener {
 
-	@Override
+	/**
+	 * Print a message when a new file appeared
+	 * @param file 
+	 */
 	public void fileAdded(File file) {
-		System.out.println("new File added! "+file.toString());
+		System.out.println("New file added : "+file.toString());
 		
 	}
 
-	@Override
+	/**
+	 * Print a message when a file is removed
+	 * @param file 
+	 */
 	public void fileRemoved(File file) {
-		System.out.println("RIP in pepperonis, mate");
+		System.out.println("New file removed : "+file.toString());
 	}
 
 }

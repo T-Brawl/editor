@@ -6,12 +6,8 @@ import java.lang.reflect.Constructor;
 
 public class PluginFilter implements FilenameFilter {
 
-	private String extension;
-	private ClassLoader generatedClass;
-
 	public PluginFilter() {
 		super();
-		this.extension = ".class";
 	}
 
 	@Override
@@ -23,8 +19,8 @@ public class PluginFilter implements FilenameFilter {
 		nameFile = file.split("\\.", file.length());
 		name = nameFile[0];
 		try {
-			constructor = Class.forName("plugins." + name).getConstructor();
-			interfaces = Class.forName("plugins." + name).getInterfaces()[0].getName();
+			constructor = Class.forName(Plugin.PACKAGE_NAME + "." + name).getConstructor();
+			interfaces = Class.forName(Plugin.PACKAGE_NAME + "." + name).getInterfaces()[0].getName();
 			return constructor.getParameterTypes().length == 0 && interfaces.equals("plugins.Plugin");
 		} catch (ClassNotFoundException e) {
 			return false;
