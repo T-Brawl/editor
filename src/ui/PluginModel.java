@@ -18,7 +18,7 @@ public class PluginModel extends Observable {
 	public PluginModel(String directory,PluginFilter filter) {
 		finder = new PluginFinder(directory, filter);
 		tools = new ArrayList<Plugin>();
-		tools.addAll(finder.getInstances());
+		tools.add(finder.getInstances());
 	}
 	
 	public PluginFilter getFilter() {

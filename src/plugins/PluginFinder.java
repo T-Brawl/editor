@@ -3,6 +3,7 @@ package plugins;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -81,10 +82,22 @@ public class PluginFinder implements ActionListener {
 		fireFileRemoved(file);
 	}
 
-	public void checkFileAdded(List<String> fileList) {
+	public void checkFileAdded(List<String> fileList) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
 		for (String s : fileList) {
 			if (!oldFiles.contains(s)) {
 				this.fileAdded(new File(s));
+				
+				String[] nameFile = new String[s.length()];
+				String name;
+				Constructor<?> constructor;
+				String interfaces;
+				nameFile = s.split("\\.", s.length());
+				name = nameFile[0];
+				
+				
+				 Class<?> c = Class.forName(Plugin.PACKAGE_NAME + "." + name);
+				 Plugin plugin = (Plugin) c.newInstance();
+				 System.out.println(plugin.helpMessage());
 			}
 		}
 
@@ -106,9 +119,24 @@ public class PluginFinder implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String[] newFiles = this.directory.list(this.filter);
 		List<String> filesAsList = Arrays.asList(newFiles);
-		checkFileAdded(filesAsList);		
+		try {
+			checkFileAdded(filesAsList);
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (InstantiationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}		
 		checkFileRemoved(filesAsList);
 		oldFiles = filesAsList;
+	}
+
+	public Collection<Class<?>> getInstances() {
+		return pluginList;
 	}
 
 }
