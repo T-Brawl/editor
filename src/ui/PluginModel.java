@@ -8,37 +8,38 @@ import plugins.Plugin;
 import plugins.PluginFilter;
 import plugins.PluginFinder;
 
-
 public class PluginModel extends Observable {
 	private PluginFinder finder;
 	private PluginFilter filter;
 	private List<Plugin> tools;
 	private String text;
-	
-	public PluginModel(String directory,PluginFilter filter) {
+
+	public PluginModel(String directory, PluginFilter filter) {
 		finder = new PluginFinder(directory, filter);
 		tools = new ArrayList<Plugin>();
-		tools.add(finder.getInstances());
+		if (finder.getInstances() != null) {
+			tools.addAll(finder.getInstances());
+		}
 	}
-	
+
 	public PluginFilter getFilter() {
 		return this.filter;
 	}
-	
-	public void tranform(Plugin p){
+
+	public void tranform(Plugin p) {
 		this.text = p.transform(this.text);
 		this.setChanged();
 		this.notifyObservers();
 	}
-	
-	public void setText(String s){
-		this.text=s;
+
+	public void setText(String s) {
+		this.text = s;
 		this.setChanged();
 		this.notifyObservers();
 	}
-	
-	public String getText(){
+
+	public String getText() {
 		return this.text;
 	}
-	
+
 }

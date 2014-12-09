@@ -36,7 +36,7 @@ public class MainFrame extends JFrame implements Observer {
 
 	public static void main(String[] args) {
 		PluginFilter filter = new PluginFilter();
-		PluginModel model = new PluginModel("/home/l3/moevi/COO/editor/bin/plugins",filter);
+		PluginModel model = new PluginModel("/home/l3/debue/workspace/Editor/bin/plugins",filter);
 		MainFrame mf = new MainFrame(model);
 	}
 

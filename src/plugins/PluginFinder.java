@@ -3,7 +3,6 @@ package plugins;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,10 +11,11 @@ import java.util.List;
 import javax.swing.Timer;
 
 /**
- * Class looking for new files or deleted files every second in a certain directory.
- * It will send an event to all the listeners.
- * @author 
- *
+ * Class looking for new files or deleted files every second in a certain
+ * directory. It will send an event to all the listeners.
+ * 
+ * @author
+ * 
  */
 public class PluginFinder implements ActionListener {
 
@@ -28,8 +28,8 @@ public class PluginFinder implements ActionListener {
 	private List<FileListener> fileListeners;
 
 	private List<String> oldFiles;
-	
-	private Collection<Class<?>> pluginList;
+
+	private List<Plugin> pluginList;
 
 	public PluginFinder(File directory, PluginFilter filter) {
 		this.directory = directory;
@@ -38,8 +38,9 @@ public class PluginFinder implements ActionListener {
 		this.oldFiles = new ArrayList<String>();
 		this.timer = new Timer(1000, this);
 		this.timer.start();
+		pluginList = new ArrayList<Plugin>();
 	}
-	
+
 	public PluginFinder(String directory, PluginFilter filter) {
 		this.directory = new File(directory);
 		this.filter = filter;
@@ -47,6 +48,7 @@ public class PluginFinder implements ActionListener {
 		this.oldFiles = new ArrayList<String>();
 		this.timer = new Timer(1000, this);
 		this.timer.start();
+		pluginList = new ArrayList<Plugin>();
 	}
 
 	public synchronized void addFileListener(FileListener l) {
@@ -61,7 +63,7 @@ public class PluginFinder implements ActionListener {
 	}
 
 	private void fireFileAdded(File file) {
-		List<FileListener> list =  fileListeners;
+		List<FileListener> list = fileListeners;
 		for (FileListener fl : list) {
 			fl.fileAdded(file);
 		}
@@ -82,22 +84,21 @@ public class PluginFinder implements ActionListener {
 		fireFileRemoved(file);
 	}
 
-	public void checkFileAdded(List<String> fileList) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+	public void checkFileAdded(List<String> fileList)
+			throws ClassNotFoundException, InstantiationException,
+			IllegalAccessException {
 		for (String s : fileList) {
 			if (!oldFiles.contains(s)) {
 				this.fileAdded(new File(s));
-				
+
 				String[] nameFile = new String[s.length()];
 				String name;
-				Constructor<?> constructor;
-				String interfaces;
 				nameFile = s.split("\\.", s.length());
 				name = nameFile[0];
-				
-				
-				 Class<?> c = Class.forName(Plugin.PACKAGE_NAME + "." + name);
-				 Plugin plugin = (Plugin) c.newInstance();
-				 System.out.println(plugin.helpMessage());
+				Class<?> c = Class.forName(Plugin.PACKAGE_NAME + "." + name);
+				Plugin plugin = (Plugin) c.newInstance();
+				pluginList.add(plugin);
+				System.out.println(plugin.helpMessage());
 			}
 		}
 
@@ -122,20 +123,17 @@ public class PluginFinder implements ActionListener {
 		try {
 			checkFileAdded(filesAsList);
 		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (InstantiationException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}		
+		}
 		checkFileRemoved(filesAsList);
 		oldFiles = filesAsList;
 	}
 
-	public Collection<Class<?>> getInstances() {
+	public Collection<? extends Plugin> getInstances() {
 		return pluginList;
 	}
 
